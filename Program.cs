@@ -7,6 +7,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// ✅ إضافة خدمة CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()  // ❗ للسماح بأي دومين (مثال: لو HTML خارجي أو من file://)
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // تسجيل DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -22,11 +33,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// ✅ تفعيل CORS
+app.UseCors("AllowAll"); // لازم يكون قبل أي Middleware بيستخدم HTTP مثل controllers
+
 app.UseAuthorization();
 
 app.MapControllers();
 
-// ✅ رسالة الترحيب في الصفحة الرئيسية
+// ✅ رسالة ترحيب بسيطة
 app.MapGet("/", () => "✅ ERP Demo API is running. Welcome!");
 
 app.Run();

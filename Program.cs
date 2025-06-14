@@ -1,0 +1,32 @@
+using ERPDemo.Data;
+using Microsoft.EntityFrameworkCore;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// إضافة Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// تسجيل DbContext
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddControllers();
+
+var app = builder.Build();
+
+// تفعيل Swagger في بيئة التطوير
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+// ✅ رسالة الترحيب في الصفحة الرئيسية
+app.MapGet("/", () => "✅ ERP Demo API is running. Welcome!");
+
+app.Run();

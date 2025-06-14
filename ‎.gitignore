@@ -1,0 +1,1 @@
+echo bin/`nobj/`n.vs/`n*.user`n*.suo`n*.pfx`nappsettings.*.json > .gitignore

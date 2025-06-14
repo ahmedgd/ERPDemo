@@ -1,0 +1,58 @@
+
+
+psql -U postgres
+
+CREATE DATABASE patient_assistant;
+
+لو هتشوف الجدول
+
+psql -U postgres -d patient_assistant
+
+SELECT * FROM patients;
+
+SELECT * FROM users;
+
+نسخ قاعده البيانات 
+pg_dump -U postgres -d patient_assistant > dump.sql
+
+===========================
+✅ إدارة قواعد البيانات:
+===========================
+\l                         -- List all databases
+CREATE DATABASE dbname;    -- إنشاء قاعدة بيانات
+DROP DATABASE dbname;      -- حذف قاعدة بيانات
+\c dbname                 -- الاتصال بقاعدة بيانات
+\q                        -- الخروج من psql
+
+===========================
+✅ إدارة الجداول:
+===========================
+\dt                        -- عرض الجداول
+CREATE TABLE table (...);  -- إنشاء جدول
+DROP TABLE table;          -- حذف جدول
+TRUNCATE TABLE table;      -- حذف كل البيانات من الجدول
+\d table_name              -- عرض تفاصيل الجدول
+
+===========================
+✅ إدارة البيانات (CRUD):
+===========================
+INSERT INTO table (col1, col2) VALUES (...);         -- إدخال بيانات
+SELECT * FROM table;                                 -- عرض كل البيانات
+SELECT col FROM table WHERE condition;               -- استعلام بفلترة
+UPDATE table SET col='val' WHERE condition;          -- تعديل بيانات
+DELETE FROM table WHERE condition;                   -- حذف بيانات
+
+===========================
+✅ إدارة المستخدمين:
+===========================
+\du                                                  -- عرض المستخدمين
+CREATE USER username WITH PASSWORD 'pass';           -- إنشاء مستخدم
+GRANT ALL PRIVILEGES ON DATABASE db TO user;         -- إعطاء صلاحيات
+ALTER USER username WITH SUPERUSER;                  -- تحويل لصلاحيات كاملة
+
+===========================
+✅ أدوات مساعدة:
+===========================
+\?                        -- قائمة المساعدة
+\! dir                   -- تنفيذ أوامر نظام التشغيل
+\timing                  -- عرض وقت تنفيذ الاستعلامات

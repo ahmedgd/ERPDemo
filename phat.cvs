@@ -1,0 +1,77 @@
+
+wmic os get osarchitecture
+
+winget install Microsoft.dotnet.SDK.8
+
+dotnet --info
+
+where.exe dotnet
+
+dotnet new mvc -n ERPDemo
+
+code .
+
+dotnet run
+//////////////////////////////////////
+dotnet run --launch-profile https
+
+التأكد من شهادة التطوير المحلية (Dev Certificate)
+
+dotnet dev-certs https --clean
+dotnet dev-certs https --trust
+////////////////////////////////////
+
+تنزيل قاعده البيانات 
+حمّل PostgreSQL من الموقع الرسمي:
+https://www.postgresql.org/download/windows/
+نزّل النسخة المناسبة (بيجي معاه pgAdmin + psql CLI).
+
+أثناء التثبيت:
+
+اختار البورت (عادةً 5432).
+
+حدد كلمة سر للمستخدم postgres (خليها محفوظة).
+
+خلّي باقي الخيارات كما هي.
+
+✅ 2. إضافة psql للأوامر (Command Line)
+بعد التثبيت، عشان تقدر تستخدم أمر psql من أي مكان:
+
+افتح Environment Variables:
+
+Start → اكتب "env" → اختار Edit the system environment variables.
+
+اضغط على Environment Variables.
+
+في قسم System variables:
+
+ابحث عن Path → اضغط Edit.
+
+اضغط New وأضف مسار psql.exe، مثل:
+
+C:\Program Files\PostgreSQL\16\bin
+//////////////////////////////////////////
+psql --version
+/////////////////////////////////////////////////////////
+✅ 4. ربط مشروع .NET بـ PostgreSQL
+لو عندك مشروع .NET جديد أو شغال عليه، تحتاج تضيف مكتبة PostgreSQL:
+
+dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
+
+/////////////////////////
+✅ 5. إعداد الاتصال في appsettings.json
+
+"ConnectionStrings": {
+  "DefaultConnection": "Host=localhost;Port=5432;Database=your_db_name;Username=postgres;Password=your_password"
+}
+✅ 6. إنشاء قاعدة البيانات (اختياري)
+
+psql -U postgres
+CREATE DATABASE your_db_name;
+
+dotnet tool install --global dotnet-ef
+
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+
+
